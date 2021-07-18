@@ -4,7 +4,7 @@ import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typo
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    maxWidth: 400,
     height: 400,
   },
   title: {
