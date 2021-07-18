@@ -5,7 +5,7 @@ import { SearchBar } from './SearchBar';
 
 const useStyles = makeStyles({
   hero: {
-    height: '250px',
+    height: '500px',
   },
   img: {
     width: '100%',
@@ -17,7 +17,10 @@ const useStyles = makeStyles({
     width: 'fit-content',
     backgroundColor: 'white',
     position: 'relative',
-    top: '-24px',
+    top: '-250px',
+    borderRadius: '10px',
+    padding: '10px',
+    boxShadow: '1px 1px 12px rgba(0 0 0 .8)',
   },
   searchBar: {
     display: 'flex',
@@ -39,7 +42,7 @@ export const Search = ({ onChange }: SearchProps) => {
         <img
           className={classes.img}
           src="https://images.unsplash.com/photo-1582719508461-905c673771fd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=50"
-          alt="hero"
+          alt="search"
         />
       </div>
       <Container>
