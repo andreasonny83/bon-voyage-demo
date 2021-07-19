@@ -6,22 +6,19 @@ export async function handler(event, context) {
   const latitude = queryStringParameters?.latitude;
   const longitude = queryStringParameters?.longitude;
 
-  if (!latitude || !longitude) {
-    return {
-      statusCode: 400,
-    };
+  let url = `https://sandbox.impala.travel/v1/hotels?size=12&offset=0&sortBy=createdAt%3Adesc`;
+
+  if (latitude && longitude) {
+    url += `&latitude=${latitude}&longitude=${longitude}&radius=10000`;
   }
 
   try {
-    const response = await axios.get(
-      `https://sandbox.impala.travel/v1/hotels?latitude=${latitude}&longitude=${longitude}&radius=10000&size=10&offset=0&sortBy=createdAt%3Adesc`,
-      {
-        headers: {
-          'x-api-key': `${process.env.IMPALA_API_KEY}`,
-          Accept: 'application/json',
-        },
+    const response = await axios.get(url, {
+      headers: {
+        'x-api-key': `${process.env.IMPALA_API_KEY}`,
+        Accept: 'application/json',
       },
-    );
+    });
 
     return {
       statusCode: 200,

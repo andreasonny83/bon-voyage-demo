@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Grid } from '@material-ui/core';
+import { CircularProgress, Container, Grid, Typography } from '@material-ui/core';
 import { HotelCard } from './HotelCard';
+import { useRef } from 'react';
+import { useCallback } from 'react';
 
 const useStyles = makeStyles({
   root: {
@@ -33,20 +35,20 @@ interface ShowRecordsProps {
 export const ShowRecords = ({ query }: ShowRecordsProps) => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
-  const [hotelsData, setHotelsData] = useState<Array<any>>();
+  const [hotelsData, setHotelsData] = useState<Array<any>>([]);
+  const firstLoad = useRef<boolean>(true);
 
-  useEffect(() => {
-    if (!(query?.lng && query?.lat)) {
-      return;
+  const showResults = useCallback((lat?: Number, lng?: Number) => {
+    let url = `/.netlify/functions/get-hotels`;
+
+    if (lat && lng) {
+      url += `?latitude=${lat}&longitude=${lng}`;
     }
 
-    setLoading(true);
-
     try {
-      fetch(`/.netlify/functions/get-hotels?latitude=${query.lat}&longitude=${query.lng}`)
+      fetch(url)
         .then((response) => response.json())
         .then((response) => {
-          console.log(response);
           setLoading(false);
           setHotelsData(response.data);
         });
@@ -54,14 +56,42 @@ export const ShowRecords = ({ query }: ShowRecordsProps) => {
       setLoading(false);
       setHotelsData([]);
     }
-  }, [query]);
+  }, []);
+
+  useEffect(() => {
+    if (firstLoad.current) {
+      showResults();
+      firstLoad.current = false;
+    }
+
+    if (!(query?.lng && query?.lat)) {
+      return;
+    }
+
+    showResults(query.lat, query.lng);
+    setLoading(true);
+  }, [query, firstLoad, showResults]);
 
   if (loading) {
-    return <Container>Loading...</Container>;
+    return (
+      <Container>
+        <Grid container justifyContent="center">
+          <CircularProgress />
+        </Grid>
+      </Container>
+    );
   }
 
-  if (!hotelsData) {
-    return <Container>No results</Container>;
+  if (!hotelsData.length) {
+    return (
+      <Container>
+        <Grid container justifyContent="center">
+          <Typography align="center" variant="h4">
+            No results
+          </Typography>
+        </Grid>
+      </Container>
+    );
   }
 
   return (
