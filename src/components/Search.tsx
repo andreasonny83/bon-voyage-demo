@@ -30,7 +30,7 @@ const useStyles = makeStyles({
 });
 
 interface SearchProps {
-  onChange: (value: string) => void;
+  onChange: (value: { lat: Number; lng: Number }) => void;
 }
 
 export const Search = ({ onChange }: SearchProps) => {

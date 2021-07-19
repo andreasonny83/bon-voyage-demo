@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 });
 
 interface ShowRecordsProps {
-  query?: string;
+  query?: { lat: Number; lng: Number };
 }
 
 export const ShowRecords = ({ query }: ShowRecordsProps) => {
@@ -36,14 +36,14 @@ export const ShowRecords = ({ query }: ShowRecordsProps) => {
   const [hotelsData, setHotelsData] = useState<Array<any>>();
 
   useEffect(() => {
-    if (!query) {
+    if (!(query?.lng && query?.lat)) {
       return;
     }
 
     setLoading(true);
 
     try {
-      fetch('/.netlify/functions/get-hotels')
+      fetch(`/.netlify/functions/get-hotels?latitude=${query.lat}&longitude=${query.lng}`)
         .then((response) => response.json())
         .then((response) => {
           console.log(response);

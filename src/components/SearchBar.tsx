@@ -6,6 +6,7 @@ import { TextField, Grid, Typography } from '@material-ui/core';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import throttle from 'lodash.throttle';
 import { googleMapsKey } from '../config';
+import { useRef } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,18 +39,18 @@ function loadScript(src: string, id: string, position: HTMLHeadElement | null) {
   position.appendChild(script);
 }
 
-const autocompleteService = { current: null };
-
 interface SearchBarProps {
-  onSearch: (input: string) => void;
+  onSearch: ({ lat, lng }: any) => void;
 }
 
-export const SearchBar = (props: SearchBarProps) => {
+export const SearchBar = ({ onSearch }: SearchBarProps) => {
   const classes = useStyles();
   const [value, setValue] = React.useState<any>({});
   const [inputValue, setInputValue] = React.useState<string | null>(null);
   const [options, setOptions] = React.useState<any[]>([]);
   const loaded = React.useRef<boolean>(false);
+  const autocompleteService = useRef<any>();
+  const placesService = useRef<any>();
 
   if (typeof window !== 'undefined' && !loaded.current) {
     if (!document.querySelector('#google-maps')) {
@@ -72,10 +73,27 @@ export const SearchBar = (props: SearchBarProps) => {
   );
 
   useEffect(() => {
+    if (value?.place_id) {
+      placesService.current.geocode({ placeId: value.place_id }).then((res: any) => {
+        const pos = res.results?.[0]?.geometry?.location;
+        const lat = pos?.lat();
+        const lng = pos?.lng();
+
+        if (lat && lng) {
+          onSearch({ lat, lng });
+        }
+      });
+    }
+  }, [value, onSearch]);
+
+  useEffect(() => {
     let active = true;
 
     if (!autocompleteService.current && (window as any).google) {
       autocompleteService.current = new (window as any).google.maps.places.AutocompleteService();
+    }
+    if (!placesService.current && (window as any).google) {
+      placesService.current = new (window as any).google.maps.Geocoder();
     }
     if (!autocompleteService.current) {
       return undefined;
@@ -120,10 +138,6 @@ export const SearchBar = (props: SearchBarProps) => {
       onChange={(_event, newValue: any) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
-
-        if (newValue) {
-          props.onSearch(newValue.description);
-        }
       }}
       onInputChange={(_event, newInputValue: string | null) => {
         setInputValue(newInputValue);
