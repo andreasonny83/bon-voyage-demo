@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d9211697-9d58-441e-beae-c5b7a724c1d6/deploy-status)](https://app.netlify.com/sites/thebonvoyage/deploys)
+
 # Bom Voyage Demo
 
 ## Environment Variables
