@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ImpalaLogo from '../logo.svg';
+import { Link } from '@material-ui/core';
 const useStyles = makeStyles({
   root: {},
   img: {
@@ -14,7 +15,9 @@ export const HeaderLogo = () => {
 
   return (
     <div className={classes.root}>
-      <img className={classes.img} src={ImpalaLogo} alt="Impala" />
+      <Link href="/">
+        <img className={classes.img} src={ImpalaLogo} alt="Impala" />
+      </Link>
     </div>
   );
 };

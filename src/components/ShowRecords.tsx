@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { CircularProgress, Container, Grid, Typography } from '@material-ui/core';
 import { HotelCard } from './HotelCard';
-import { useRef } from 'react';
-import { useCallback } from 'react';
+import { SearchInput } from '../types';
 
 const useStyles = makeStyles({
   root: {
@@ -29,14 +29,14 @@ const useStyles = makeStyles({
 });
 
 interface ShowRecordsProps {
-  query?: { lat: Number; lng: Number };
+  query?: SearchInput;
 }
 
 export const ShowRecords = ({ query }: ShowRecordsProps) => {
   const classes = useStyles();
+  const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [hotelsData, setHotelsData] = useState<Array<any>>([]);
-  const firstLoad = useRef<boolean>(true);
 
   const showResults = useCallback((lat?: Number, lng?: Number) => {
     let url = `/.netlify/functions/get-hotels`;
@@ -59,18 +59,19 @@ export const ShowRecords = ({ query }: ShowRecordsProps) => {
   }, []);
 
   useEffect(() => {
-    if (firstLoad.current) {
-      showResults();
-      firstLoad.current = false;
-    }
+    setLoading(true);
 
     if (!(query?.lng && query?.lat)) {
+      showResults();
       return;
     }
 
     showResults(query.lat, query.lng);
-    setLoading(true);
-  }, [query, firstLoad, showResults]);
+  }, [query, showResults]);
+
+  const handleShowDetails = (hotelId: string) => {
+    history.push(`/details/${hotelId}`);
+  };
 
   if (loading) {
     return (
@@ -100,7 +101,7 @@ export const ShowRecords = ({ query }: ShowRecordsProps) => {
         <Grid container className={classes.gridContainer} spacing={2}>
           {hotelsData.map((data) => (
             <Grid key={data.hotelId} item xs={12} sm={6} md={4} lg={3}>
-              <HotelCard data={data} />
+              <HotelCard onClick={handleShowDetails} data={data} />
             </Grid>
           ))}
         </Grid>

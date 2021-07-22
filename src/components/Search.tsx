@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 import { SearchBar } from './SearchBar';
+import { SearchInput } from '../types';
 
 const useStyles = makeStyles({
   hero: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles({
 });
 
 interface SearchProps {
-  onChange: (value: { lat: Number; lng: Number }) => void;
+  onChange: (value: SearchInput) => void;
 }
 
 export const Search = ({ onChange }: SearchProps) => {

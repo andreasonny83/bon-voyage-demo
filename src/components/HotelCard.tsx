@@ -33,9 +33,11 @@ const useStyles = makeStyles({
 
 interface HotelCardProps {
   data: any;
+  onClick: (hotelId: string) => void;
 }
 
-export const HotelCard = ({ data }: HotelCardProps) => {
+export const HotelCard = (props: HotelCardProps) => {
+  const { data } = props;
   const classes = useStyles();
   const picture =
     data.images?.[0]?.url ||
@@ -43,7 +45,7 @@ export const HotelCard = ({ data }: HotelCardProps) => {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
+      <CardActionArea onClick={() => props.onClick(data.hotelId)}>
         <CardMedia className={classes.media} image={picture} title="Hotel image" />
         <CardContent>
           <Typography className={classes.title} gutterBottom variant="h5" component="h2">
@@ -55,11 +57,8 @@ export const HotelCard = ({ data }: HotelCardProps) => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
+        <Button size="small" color="primary" onClick={() => props.onClick(data.hotelId)}>
+          Details
         </Button>
       </CardActions>
     </Card>
