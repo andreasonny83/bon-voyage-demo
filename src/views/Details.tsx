@@ -131,7 +131,7 @@ export const Details = () => {
           <Grid item xs={12}>
             <Typography variant="h3">General Phone Number</Typography>
             {details.phoneNumbers[0] ? (
-              <Typography variant="body" component="span">
+              <Typography>
                 {details.phoneNumbers[0]}
               </Typography>
             ) : (
@@ -142,7 +142,7 @@ export const Details = () => {
           <Grid item xs={12}>
             <Typography variant="h3">Reservation Email</Typography>
              {details.emails[0] ? (
-              <Typography variant="body" component="span">
+              <Typography>
                 {details.emails[0]}
               </Typography>
             ) : (
