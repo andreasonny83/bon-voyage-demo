@@ -47,7 +47,7 @@ export interface HotelData {
     latitude: number;
   };
   name: string;
-  phonenumbers: Array<string>;
+  phoneNumbers: Array<string>;
   roomCount: number;
   roomTypes: Array<{
     amenities: Amenity;
