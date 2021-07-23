@@ -124,6 +124,29 @@ export const Details = () => {
               <Typography>N/A</Typography>
             )}
           </Grid>
+          
+          <Grid item xs={12}>
+            <Typography variant="h3">General Phone Number</Typography>
+            {details?.phoneNumbers[0] ? (
+              <Text variant="body" component="span">
+                {details?.phoneNumbers[0]}
+              </Text>
+            ) : (
+              <NotAvailable />
+            )}
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant="h3">Reservation Email</Typography>
+             {details?.emails[0] ? (
+              <Text variant="body" component="span">
+                {details?.emails[0]}
+              </Text>
+            ) : (
+              <NotAvailable />
+            )}
+          </Grid>
+          
         </Grid>
       </Container>
     </div>
