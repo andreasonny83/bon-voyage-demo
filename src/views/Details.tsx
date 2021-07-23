@@ -130,9 +130,9 @@ export const Details = () => {
           
           <Grid item xs={12}>
             <Typography variant="h3">General Phone Number</Typography>
-            {details?.phoneNumbers[0] ? (
+            {details.phoneNumbers[0] ? (
               <Typography variant="body" component="span">
-                {details?.phoneNumbers[0]}
+                {details.phoneNumbers[0]}
               </Typography>
             ) : (
               <Typography>N/A</Typography>
@@ -141,9 +141,9 @@ export const Details = () => {
 
           <Grid item xs={12}>
             <Typography variant="h3">Reservation Email</Typography>
-             {details?.emails[0] ? (
+             {details.emails[0] ? (
               <Typography variant="body" component="span">
-                {details?.emails[0]}
+                {details.emails[0]}
               </Typography>
             ) : (
               <Typography>N/A</Typography>
