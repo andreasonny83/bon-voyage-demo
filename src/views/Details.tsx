@@ -154,7 +154,7 @@ export const Details = () => {
             <Typography variant="h3">Check in</Typography>
              {details?.checkIn?.from ? (
               <Typography>
-                From {data?.checkIn?.from}
+                From {details?.checkIn?.from}
               </Typography>
             ) : (
               <Typography>N/A</Typography>
@@ -165,7 +165,7 @@ export const Details = () => {
             <Typography variant="h3">Check out</Typography>
              {details?.checkOut?.to ? (
               <Typography>
-                From {data?.checkOut?.to}
+                From {details?.checkOut?.to}
               </Typography>
             ) : (
               <Typography>N/A</Typography>
