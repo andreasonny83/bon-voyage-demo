@@ -150,6 +150,28 @@ export const Details = () => {
             )}
           </Grid>
           
+          <Grid item xs={12}>
+            <Typography variant="h3">Check in</Typography>
+             {details?.checkIn?.from ? (
+              <Text variant="body" component="span">
+                From {data?.checkIn?.from}
+              </Text>
+            ) : (
+              <Typography>N/A</Typography>
+            )}
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant="h3">Check out</Typography>
+             {details?.checkOut?.to ? (
+              <Text variant="body" component="span">
+                From {data?.checkOut?.to}
+              </Text>
+            ) : (
+              <Typography>N/A</Typography>
+            )}
+          </Grid>                 
+          
         </Grid>
       </Container>
     </div>
