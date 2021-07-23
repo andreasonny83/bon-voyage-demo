@@ -153,9 +153,9 @@ export const Details = () => {
           <Grid item xs={12}>
             <Typography variant="h3">Check in</Typography>
              {details?.checkIn?.from ? (
-              <Text variant="body" component="span">
+              <Typography>
                 From {data?.checkIn?.from}
-              </Text>
+              </Typography>
             ) : (
               <Typography>N/A</Typography>
             )}
@@ -164,9 +164,9 @@ export const Details = () => {
           <Grid item xs={12}>
             <Typography variant="h3">Check out</Typography>
              {details?.checkOut?.to ? (
-              <Text variant="body" component="span">
+              <Typography>
                 From {data?.checkOut?.to}
-              </Text>
+              </Typography>
             ) : (
               <Typography>N/A</Typography>
             )}
