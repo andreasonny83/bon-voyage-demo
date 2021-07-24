@@ -55,9 +55,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
-
 export const Details = () => {
   const classes = useStyles();
   const { hotelId } = useParams<RouteProps>();
