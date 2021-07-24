@@ -52,11 +52,11 @@ export interface HotelData {
   roomTypes: Array<{
     amenities: Amenity;
     description: string;
-    images: Image;
-    starRating: number;
-    termsAndConditions: string;
-    updatedAt: string;
-    websiteUrl: string;
+    images: Array<Image>;
+    maxOccupancy: number;
+    name: string;
+    rates: Array<string>;
+    roomTypeId: string;
   }>;
   starRating: number;
   termsAndConditions: string;
