@@ -7,17 +7,16 @@ export async function handler(event, context) {
   const start = queryStringParameters?.start;
   const end = queryStringParameters?.end;
 
-  if (!hotelId) {
+  if (!hotelId || !start || !end) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ msg: 'An Hotel ID must be provided to fetch the hotel details' }),
+      body: JSON.stringify({
+        msg: 'An Hotel ID, a start and end date must be provided to check the hotel availability',
+      }),
     };
   }
 
-  let url = `https://sandbox.impala.travel/v1/hotels/${hotelId}`;
-  if (start && end && start !== 'undefined' && end !== 'undefined') {
-    url += `?start=${start}&end=${end}`;
-  }
+  const url = `https://sandbox.impala.travesl/v1/hotels/${hotelId}?start=${start}&end=${end}`;
 
   try {
     const response = await axios.get(url, {

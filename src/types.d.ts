@@ -40,6 +40,23 @@ export interface RoomType {
   rates: Array<string>;
   roomTypeId: string;
 }
+
+export interface RoomBooking {
+  rateId: string;
+  adults: number;
+}
+
+export interface HotelBooking {
+  start: string;
+  end: string;
+  bookingContact: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+  rooms: Array<RoomBooking>;
+}
+
 export interface HotelData {
   address: HotelDataAddress;
   amenities: Array<Amenity>;
