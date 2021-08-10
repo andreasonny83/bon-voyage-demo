@@ -1,29 +1,40 @@
 import axios from 'axios';
 require('dotenv').config();
 
-export async function handler(event, context) {
-  const { queryStringParameters } = event;
-  const hotelId = queryStringParameters?.hotelId;
-  const start = queryStringParameters?.start;
-  const end = queryStringParameters?.end;
+export async function handler(event) {
+  const { start, end, rooms } = JSON.parse(event?.body);
 
-  if (!hotelId || !start || !end) {
+  if (!start || !end || !rooms) {
     return {
       statusCode: 400,
       body: JSON.stringify({
-        msg: 'An Hotel ID, a start and end date must be provided to check the hotel availability',
+        msg: 'Missing required information',
       }),
     };
   }
 
-  const url = `https://sandbox.impala.travesl/v1/hotels/${hotelId}?start=${start}&end=${end}`;
+  const bookingContact = {
+    firstName: 'test',
+    lastName: 'test',
+    email: 'test@mail.com',
+  };
+
+  const url = `https://sandbox.impala.travel/v1/bookings`;
 
   try {
-    const response = await axios.get(url, {
+    const response = await axios({
+      method: 'POST',
+      url,
       headers: {
         'x-api-key': `${process.env.IMPALA_API_KEY}`,
-        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
+      data: JSON.stringify({
+        start,
+        end,
+        rooms,
+        bookingContact,
+      }),
     });
 
     return {
@@ -34,7 +45,7 @@ export async function handler(event, context) {
     console.log(err); // output to netlify function log
     return {
       statusCode: err?.response?.status || 500,
-      body: JSON.stringify({ msg: err.message }),
+      body: JSON.stringify({ msg: err?.response?.data || err?.message }),
     };
   }
 }

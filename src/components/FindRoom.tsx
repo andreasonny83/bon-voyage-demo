@@ -3,6 +3,7 @@ import { Button, Container, List, ListItem, ListItemSecondaryAction, ListItemTex
 import { makeStyles } from '@material-ui/core/styles/';
 import { formatDate } from '../helpers/format-date';
 import { RoomBooking, RoomType } from '../types';
+import { useEffect } from 'react';
 
 interface FindRoomProps {
   checkIn: Date;
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const FindRoom = (props: FindRoomProps) => {
-  const { checkIn, checkOut, hotelId, roomTypes } = props;
+  const { checkIn, checkOut, roomTypes } = props;
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
   const [booking, setBooking] = useState<Array<RoomBooking>>();
@@ -39,15 +40,20 @@ export const FindRoom = (props: FindRoomProps) => {
     }
   };
 
+  useEffect(() => {
+    setBookingData(roomTypes);
+  }, [roomTypes]);
+
   const bookRoom = useCallback(() => {
     const start = formatDate(checkIn);
     const end = formatDate(checkOut);
+    const rooms = booking?.filter((room) => room.adults);
 
-    const url = `/.netlify/functions/book-room?hotelId=${hotelId}&start=${start}&end=${end}`;
+    const url = `/.netlify/functions/book-room`;
     setLoading(true);
 
     try {
-      fetch(url)
+      fetch(url, { method: 'POST', body: JSON.stringify({ start, end, rooms }) })
         .then((response) => response.json())
         .then((response) => {
           if (response.hotelId) {
@@ -63,7 +69,7 @@ export const FindRoom = (props: FindRoomProps) => {
       setLoading(false);
       setBookingData(undefined);
     }
-  }, [checkIn, checkOut, hotelId]);
+  }, [checkIn, checkOut, booking]);
 
   const handleRoomChange = (roomType: RoomType) => (event: any) => {
     if (!booking?.length) {
@@ -74,7 +80,7 @@ export const FindRoom = (props: FindRoomProps) => {
       if (room.rateId === roomType.roomTypeId) {
         return {
           ...room,
-          adults: event.target.value,
+          adults: Number(event.target.value),
         };
       }
       return room;
@@ -87,8 +93,6 @@ export const FindRoom = (props: FindRoomProps) => {
     return <div>No result</div>;
   }
 
-  console.warn(booking);
-  // console.warn(roomTypes);
   console.warn(loading);
 
   return (
@@ -102,7 +106,7 @@ export const FindRoom = (props: FindRoomProps) => {
                 type="number"
                 variant="outlined"
                 className={classes.inputField}
-                value={booking?.[index].adults}
+                value={booking?.[index].adults || 0}
                 InputProps={{ inputProps: { min: 0, max: roomType.maxOccupancy } }}
                 onChange={handleRoomChange(roomType)}
               />

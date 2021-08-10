@@ -1,7 +1,7 @@
 import axios from 'axios';
 require('dotenv').config();
 
-export async function handler(event, context) {
+export async function handler(event) {
   const { queryStringParameters } = event;
   const hotelId = queryStringParameters?.hotelId;
   const start = queryStringParameters?.start;
