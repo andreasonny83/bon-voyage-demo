@@ -6,7 +6,7 @@ export async function handler(event, context) {
   const latitude = queryStringParameters?.latitude;
   const longitude = queryStringParameters?.longitude;
 
-  let url = `https://sandbox.impala.travel/v1/hotels?size=12&offset=0&sortBy=createdAt%3Adesc`;
+  let url = `https://api.impala.travel/v1/hotels?size=12&offset=0&sortBy=createdAt%3Adesc`;
 
   if (latitude && longitude) {
     url += `&latitude=${latitude}&longitude=${longitude}&radius=10000`;
