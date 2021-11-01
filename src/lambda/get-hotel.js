@@ -12,7 +12,7 @@ export async function handler(event, context) {
     };
   }
 
-  const url = `https://sandbox.impala.travel/v1/hotels/${hotelId}`;
+  const url = `https://api.impala.travel/v1/hotels/${hotelId}`;
 
   try {
     const response = await axios.get(url, {
