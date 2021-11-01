@@ -1,7 +1,7 @@
 import axios from 'axios';
 require('dotenv').config();
 
-export async function handler(event, context) {
+export async function handler(event) {
   const { queryStringParameters } = event;
   const latitude = queryStringParameters?.latitude;
   const longitude = queryStringParameters?.longitude;
